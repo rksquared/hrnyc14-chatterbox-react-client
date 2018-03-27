@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import './styles/styles.css';
 
+import RoomSelector from './components/roomSelector.js';
+import AnimatedLoader from './components/animatedLoader.js';
+import ChatRoom from './components/chatRoom.js';
+import ChatInput from './components/chatInput.js'
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -32,23 +37,23 @@ class App extends Component {
   
   render() {
     
-    console.log(this.state)
+    console.log(this.state.username);
 
     return (
       <div>
         <div id="main">
           <h1>chatterbox</h1>
-          <div className="spinner"><img src="images/spiffygif_46x46.gif" /></div>
-          <div id="rooms">
-            Room: 
-              <select id="roomSelect"></select>
-          </div>
-          <form action="#" id="send" method="post">
-            <input type="text" name="message" id="message" />
-            <input type="submit" name="submit" className="submit" />
-          </form>
+          
+          <AnimatedLoader />
+
+          <RoomSelector />
+
+          <ChatInput />
+          
         </div>
-        <div id="chats"></div>
+        
+        <ChatRoom />
+
       </div>
     );
   }
