@@ -12,8 +12,6 @@ class App extends Component {
     this.state = {
       username: 'anonymous',
       roomname: 'lobby',
-      lastMessageId: 0,
-      friends: {},
       messages: [],
     }
   }
@@ -43,15 +41,14 @@ class App extends Component {
       <div>
         <div id="main">
           <h1>chatterbox</h1>
-          
+
           <AnimatedLoader />
 
           <RoomSelector />
 
           <ChatInput />
-          
         </div>
-        
+
         <ChatRoom />
 
       </div>
