@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import AnimatedLoader from './animatedLoader.js'
+import AnimatedLoader from './animatedLoader.js';
+import * as _ from 'lodash';
 
 export default class ChatInput extends Component{
 constructor(props) {
@@ -7,13 +8,20 @@ constructor(props) {
   this.state = {
      toggled: false
   }
+  // this.toggleLoader = _.
 }
 
   toggleLoader = () => {
     this.setState({
       toggled: !this.state.toggled
+    }, () => {
+      if (this.state.toggled) {
+        _.debounce(() => { this.toggleLoader() }, 400)();
+      }
     });
+
   };
+
 
   render() {
     return (
@@ -24,8 +32,8 @@ constructor(props) {
               type="text" 
               value={this.props.ctrlFormVal} 
               onChange={this.props.handleInput} 
-              onKeyDown={this.toggleLoader} 
-              onKeyUp={this.toggleLoader}/>
+              onKeyPress={this.toggleLoader} 
+            />
             <input type="submit" name="submit" className="submit" />
           </form>
         </div>

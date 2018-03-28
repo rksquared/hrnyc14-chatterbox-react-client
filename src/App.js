@@ -10,7 +10,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'anonymous',
+      username: 'rk',
       roomname: 'lobby',
       messages: [],
       newMessage: ''
@@ -18,21 +18,24 @@ class App extends Component {
     this.handleChatInput = this.handleChatInput.bind(this);
     this.handleChatSubmission = this.handleChatSubmission.bind(this);
     this.fetchChats = this.fetchChats.bind(this);
+    this.postChats = this.postChats.bind(this);
+
   }
 
   componentDidMount() {
-    if (!/(&|\?)username=/.test(window.location.search)) {
-      let newSearch = window.location.search;
-      if (newSearch !== '' & newSearch !== '?') {
-        newSearch += '&';
-      }
-      newSearch += 'username=' + (prompt('What is your name?') || 'anonymous');
-      window.location.search = newSearch;
-    }
+    // if (!/(&|\?)username=/.test(window.location.search)) {
+    //   let newSearch = window.location.search;
+    //   if (newSearch !== '' & newSearch !== '?') {
+    //     newSearch += '&';
+    //   }
+    //   newSearch += 'username=' + (prompt('What is your name?') || 'anonymous');
+    //   window.location.search = newSearch;
+    // }
 
-    this.setState({
-      username: window.location.search.substr(10)
-    });
+    // this.setState({
+    //   username: window.location.search.substr(10)
+    // });
+    this.fetchChats();
     
   }
 
@@ -50,8 +53,15 @@ class App extends Component {
 
   }
 
-  postChats() {
-
+  postChats(message) {
+    Axios.post('http://127.0.0.1:3000/classes/messages/', message)
+      .then((res) => {
+        console.log(res);
+        this.fetchChats();
+      })
+      .catch((error) => {
+        console.error(error)
+      });
   }
 
   handleChatInput(ev) {
@@ -63,6 +73,11 @@ class App extends Component {
 
   handleChatSubmission() {
     //post with this.state.newMessage
+    let message = {
+      username: this.state.username,
+      text: this.state.newMessage
+    }
+    this.postChats(message);
   }
 
   
@@ -74,7 +89,7 @@ class App extends Component {
       <div>
         <div id="main">
           <h1>chatterbox</h1>
-          <button onClick={() => {this.fetchChats()}}>test get</button>
+          <button onClick={this.fetchChats}>test get</button>
 
           <RoomSelector />
 
