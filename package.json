@@ -2,12 +2,8 @@
   "name": "hrnyc14-chatterbox-react-client",
   "version": "0.1.0",
   "private": true,
-  "proxy": {
-    "/classes/messages": {
-      "target": "http://127.0.0.1:3000/"
-    }
-  },
   "dependencies": {
+    "axios": "^0.18.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-loader-spinner": "^2.0.0",

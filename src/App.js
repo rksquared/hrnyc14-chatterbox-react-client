@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import Axios from 'axios';
 import './styles/styles.css';
 
 import RoomSelector from './components/roomSelector.js';
-import AnimatedLoader from './components/animatedLoader.js';
 import ChatRoom from './components/chatRoom.js';
-import ChatInput from './components/chatInput.js'
+import ChatInput from './components/chatInput.js';
 
 class App extends Component {
   constructor(props) {
@@ -13,7 +13,11 @@ class App extends Component {
       username: 'anonymous',
       roomname: 'lobby',
       messages: [],
+      newMessage: ''
     }
+    this.handleChatInput = this.handleChatInput.bind(this);
+    this.handleChatSubmission = this.handleChatSubmission.bind(this);
+    this.fetchChats = this.fetchChats.bind(this);
   }
 
   componentDidMount() {
@@ -32,6 +36,35 @@ class App extends Component {
     
   }
 
+  fetchChats() {
+    Axios.get('http://127.0.0.1:3000/classes/messages/')
+      .then((res) => {
+        console.log(res.data.results);
+        this.setState({
+          messages: res.data.results
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+  }
+
+  postChats() {
+
+  }
+
+  handleChatInput(ev) {
+    this.setState({
+      newMessage: ev.target.value
+    });
+    console.log(this.state.newMessage);
+  }
+
+  handleChatSubmission() {
+    //post with this.state.newMessage
+  }
+
   
   render() {
     
@@ -41,15 +74,18 @@ class App extends Component {
       <div>
         <div id="main">
           <h1>chatterbox</h1>
-
-          <AnimatedLoader />
+          <button onClick={() => {this.fetchChats()}}>test get</button>
 
           <RoomSelector />
 
-          <ChatInput />
+          <ChatInput 
+            ctrlFormVal={this.state.newMessage} 
+            handleInput={this.handleChatInput}
+            handleSubmission={this.handleChatSubmission}
+          />
         </div>
 
-        <ChatRoom />
+        <ChatRoom messages={this.state.messages}/>
 
       </div>
     );
