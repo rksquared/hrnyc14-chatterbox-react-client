@@ -47,18 +47,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // if (!/(&|\?)username=/.test(window.location.search)) {
-    //   let newSearch = window.location.search;
-    //   if (newSearch !== '' & newSearch !== '?') {
-    //     newSearch += '&';
-    //   }
-    //   newSearch += 'username=' + (prompt('What is your name?') || 'anonymous');
-    //   window.location.search = newSearch;
-    // }
-
-    // this.setState({
-    //   username: window.location.search.substr(10)
-    // });
     if (this.state.username === '') {
       this.setState({
         modalIsOpen: true
